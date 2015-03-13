@@ -1,0 +1,174 @@
+#!/bin/bash
+#
+# .bash_alias
+#
+
+# enable color support of ls and also add handy aliases
+if [[ "${TERM}" != "dumb" ]]; then
+	alias ls='ls --color=auto'
+	alias grep='grep --color=auto'
+	alias fgrep='fgrep --color=auto'
+	alias egrep='egrep --color=auto'
+fi
+
+# some more ls aliases
+alias l='ls -CF'
+alias ls='ls -G'
+alias ll='ls -l'
+alias la='ll -A'
+alias lr='ll -tr'
+alias lla='ls -al'
+alias df='df -h'
+alias du='du -h'
+alias dir='ls -l'
+alias vdir='ls -l'
+alias ltr='ls -ltr'
+alias ltra='ls -altr'
+alias grep='grep --color'
+alias lsregister='/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister'
+alias rebuild='lsregister -kill -r -domain local -domain system -domain user'
+alias swift='lldb --repl'
+
+# Time Machine backup file controls and check
+alias add_tm='xattr -d com.apple.metadata:com_apple_backup_excludeItem'
+alias remove_tm='xattr -w com.apple.metadata:com_apple_backup_excludeItem com.apple.backupd'
+alias check_tm='tmutil isexcluded'
+
+# CrashPlan tunnel setup
+alias crashplan='ssh -L 4200:127.0.0.1:4243 crashplan@crashplan.internal-v2-lab.com.br -N -v -v'
+
+# Sync AT with other machines
+alias sendtp='(cd "${HOME}/Documents/Arquivos IBM/LTC/Projects/AdvancedToolchain/Sources/ppc64-tc-utils/at" && rsync -av --exclude=.{git,svn,CVS}* --exclude=._* --relative ./ juvenal.silva@172.16.32.122:/home/juvenal.silva/Documents/Projects/at-builds/makefile-build)'
+alias sendbns='(cd "${HOME}/Documents/Arquivos IBM/LTC/Projects/AdvancedToolchain/Sources/ppc64-tc-utils/at" && rsync -av --exclude=.{git,svn,CVS}* --exclude=._* --relative ./ juvenal@bns.rch.stglabs.ibm.com:/home/juvenal/at-builds/make)'
+alias sendgleep1='(cd "${HOME}/Documents/Arquivos IBM/LTC/Projects/AdvancedToolchain/Sources/ppc64-tc-utils/at" && rsync -av --exclude=.{git,svn,CVS}* --exclude=._* --relative ./ juvenal@gleep1.ltc.br.ibm.com:/mnt/nfs/at-builds)'
+alias sendetna='(cd "${HOME}/Documents/Arquivos IBM/LTC/Projects/AdvancedToolchain/Sources/ppc64-tc-utils/at" && rsync -av --exclude=.{git,svn,CVS}* --exclude=._* --relative ./ juvenal@etna.rch.stglabs.ibm.com:/home/juvenal/at-builds/make)'
+alias sendariel1='(cd "${HOME}/Documents/Arquivos IBM/LTC/Projects/AdvancedToolchain/Sources/ppc64-tc-utils/at" && rsync -av --exclude=.{git,svn,CVS}* --exclude=._* --relative ./ juvenal@ariel1.rch.stglabs.ibm.com:/home/juvenal/at-builds/make)'
+alias sendariel2='(cd "${HOME}/Documents/Arquivos IBM/LTC/Projects/AdvancedToolchain/Sources/ppc64-tc-utils/at" && rsync -av --exclude=.{git,svn,CVS}* --exclude=._* --relative ./ juvenal@ariel2.rch.stglabs.ibm.com:/home/juvenal/at-builds/make)'
+alias sendariel3='(cd "${HOME}/Documents/Arquivos IBM/LTC/Projects/AdvancedToolchain/Sources/ppc64-tc-utils/at" && rsync -av --exclude=.{git,svn,CVS}* --exclude=._* --relative ./ juvenal@ariel3.rch.stglabs.ibm.com:/home/juvenal/at-builds/make)'
+alias sendariel4='(cd "${HOME}/Documents/Arquivos IBM/LTC/Projects/AdvancedToolchain/Sources/ppc64-tc-utils/at" && rsync -av --exclude=.{git,svn,CVS}* --exclude=._* --relative ./ juvenal@ariel4.rch.stglabs.ibm.com:/home/juvenal/at-builds/make)'
+alias tbb2bns='(cd "${HOME}/Documents/Arquivos IBM/LTC/Projects/IntelTBB/Source/intel_tbb" && rsync -av --exclude=.{git,svn,CVS}* --exclude=._* --relative ./ juvenal@bns.rch.stglabs.ibm.com:/home/juvenal/tbb-builds)'
+
+# Shortcuts for project directories
+alias atsource='cd ${HOME}/Documents/Arquivos\ IBM/LTC/Projects/AdvancedToolchain/Sources'
+alias toolchain='cd ${HOME}/Documents/Arquivos\ IBM/LTC/Projects/Toolchain/Sources'
+alias tbbsrc='cd ${HOME}/Documents/Arquivos\ IBM/LTC/Projects/IntelTBB/Source'
+alias libauxv='cd ${HOME}/Documents/Arquivos\ IBM/LTC/Projects/libauxv/Sources'
+alias libdfp='cd ${HOME}/Documents/Arquivos\ IBM/LTC/Projects/libdfp/Sources'
+alias easycap='cd ${HOME}/Documents/Projects/in-git/EasyCapViewer'
+alias scomic='cd ${HOME}/Documents/Projects/in-git/Simple\ Comic'
+alias booksh='cd ${HOME}/Documents/Projects/in-git/eBookShelf'
+alias git2hg='cd ${HOME}/Documents/Projects/in-git/gitifyhg'
+alias megasrc='cd ${HOME}/Documents/Projects/in-git/mega-sdk'
+alias chmox='cd ${HOME}/Documents/Projects/in-git/Chmox'
+alias v2labs='cd ${HOME}/Documents/Projects/Sites/Active\ Sites/Development/v2-labs'
+alias juvenal='cd ${HOME}/Documents/Projects/Sites/Active\ Sites/Development/juvenalsilva'
+alias thoughts='cd ${HOME}/Documents/Projects/Sites/Active\ Sites/Development/thoughts'
+
+# Verify GIT projects that need a fetch
+alias check_git='for PRJ in $(ls *); do if [[ -d ${PRJ} ]]; then pushd ${PRJ} > /dev/null; if [[ ! -d .git ]]; then echo "Projeto ${PRJ} is not a git repo"; fi; popd > /dev/null; fi; done;'
+
+# some cd aliases
+alias ..='cd ..'
+
+# Small functions
+# ===============
+# List files of some path that are not in a given filelist
+#   $1 - Path to search in
+#   $2 - Path of text filelist
+function not_there() {
+	for FILE in $(cd ${1} && find . ! -path . -print | sed -r 's|^\.\/||g'); do
+		if ! grep -e "^${FILE}$" ${2} > /dev/null 2>&1; then
+			echo "${FILE}"
+		fi
+	done
+}
+
+# Start logging terminal output
+function record() {
+	if [[ ! -s "${HOME}/Documents/ShellLogs" ]]; then
+		mkdir "${HOME}/Documents/ShellLogs/"
+	fi
+	script -a "${HOME}/Documents/ShellLogs/ScriptSession-$(date "+%m-%d-%y %H;%M.%S").log"
+}
+
+# Create folder and change to it
+function mkcd() {
+	mkdir -p "${*}"
+	cd "${*}"
+}
+
+# Activate Sublime Text 3 by the command line (CLI)
+function sbt() {
+	open -a "Sublime Text 2" ${@}
+}
+
+# Copy files from an m3u playlist to the specified folder/volume
+#   $1 - m3u file with list of files to copy
+#   $2 - destination folder to copy to
+function m3u2dir() {
+	for line in $(cat ${1} | tr '\r' '\n' | tr ' ' '%'); do
+		if [[ "${line:0:1}" == "#" ]]; then
+			continue
+		else
+			echo ${line}
+			file=$(echo ${line} | tr '%' ' ')
+			echo ${file}
+			cp "${file}" ${2}
+		fi
+	done
+}
+
+# Open BSO firewall for given network servers
+function bso() {
+	# Set your credentials
+	IBM_MAIL=juvenalj@br.ibm.com
+	# Ask for your password only once
+	echo -n "Type your intranet password: "
+	read -s IBM_PASSWD
+	echo
+	# Cycle thru servers
+	for SRV in $(cat ~/.bso_servers); do
+		# Try to expand any host nickname on .ssh/config
+		HOST="${SRV}"
+		HOSTNAME=$(grep ${SRV} ~/.ssh/config | grep HostName | awk '{print $2}')
+		if [[ "x${HOSTNAME}" == "x" ]]; then
+			# There is no host called ${HOST} on your SSH config file.
+			# Trying ${HOST} directly
+			HOSTNAME=${HOST}
+		fi
+		# Check its BSO clearance on given host network
+		bso_active=$(curl https://${HOSTNAME}:443/ -s -k -o - | grep -o 'Firewall')
+		if [[ "${bso_active}" == "Firewall" ]]; then
+			# Perform domain clearance if needed...
+			request=$(curl https://${HOSTNAME}:443/ -s -k -o - \
+						-d "au_pxytimetag=$(date +%s)&uname=${IBM_MAIL}&pwd=${IBM_PASSWD}&ok=OK" \
+						| sed -e 's:.*<H1>::g' -e 's:</H1>.*::g' -e 's:<[^>]*>:\n:g' \
+						| head -n 3 | grep -o "BSO Authentication Successfull")
+			if [[ "${request}" == "BSO Authentication Successfull" ]]; then
+				echo "Host ${HOSTNAME} cleared"
+			else
+				echo "Host ${HOSTNAME} denied access"
+			fi
+		else
+			echo "Host ${HOSTNAME} already opened"
+		fi
+	done
+}
+
+
+function extract_rar() {
+	if [[ -f ${1} ]]; then
+		namedir=$(echo ${1} | tr ' ' '_' | tr [:upper:] [:lower:])
+		if [[ -d ${namedir} ]]; then
+			mv ${namedir} ${namedir}_
+		fi
+		mkdir ${namedir}
+		pushd ./${namedir} > /dev/null
+		echo "Expanding ${1} into ${namedir}"
+		rar x ../"${1}"
+		popd > /dev/null
+	else
+		echo "Archive not found... Skipping"
+	fi
+}
+

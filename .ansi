@@ -1,0 +1,45 @@
+#!/bin/bash
+#
+#
+#
+#
+#
+
+# Set styles
+export normal=0
+export bold=1
+export underline=4
+export blink=5
+export reverse=7
+export nondisplay=8
+# Set color codes
+export black=0
+export red=1
+export green=2
+export yellow=3
+export blue=4
+export magenta=5
+export cyan=6
+export white=7
+
+setColor() {
+	# Set shifts for foreground / background
+	foreground=30
+	background=40
+	# Set according to parameters
+	if [[ ! -z ${1} ]] && [[ -z ${2} ]] && [[ -z ${3} ]]; then
+		attr=${1}
+		printf '\[\033[%sm\]' ${attr}
+	elif [[ ! -z ${1} ]] && [[ ! -z ${2} ]] && [[ -z ${3} ]]; then
+		attr=${1}
+		fore=$(( ${foreground} + ${2} ))
+		printf '\[\033[%s;%sm\]' ${attr} ${fore}
+	elif [[ ! -z ${1} ]] && [[ ! -z ${2} ]] && [[ ! -z ${3} ]]; then
+		attr=${1}
+		fore=$(( ${foreground} + ${2} ))
+		back=$(( ${background} + ${3} ))
+		printf '\[\033[%s;%s;%sm\]' ${attr} ${fore} ${back}
+	else
+		printf '\[\033[0m\]'
+	fi
+}

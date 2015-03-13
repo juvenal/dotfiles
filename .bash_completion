@@ -1,0 +1,13 @@
+#!/bin/bash
+#
+# .bash_completion
+#
+
+# Add brew completions if available on home directory ".local"
+if [[ -d ${HOME}/.local/etc/bash_completion.d ]]; then
+	for FILE in $(ls ${HOME}/.local/etc/bash_completion.d/*); do
+		source ${FILE}
+	done
+fi
+
+# Add your specific completions below...

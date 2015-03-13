@@ -1,0 +1,105 @@
+#!/bin/bash
+#
+# .bash_prompt
+#
+
+# First of all, set the prompt function
+function prompt_command() {
+	# Get the status of the last executed command
+	if [[ ${?} -eq 0 ]]; then
+		local PROMPT_ERR=""
+	else
+		local PROMPT_ERR=$(prompt_color "bright,red" 'Error ->('${?}')')'\n'
+	fi
+	# Prepare the prompt marker
+	local PROMPT_MAKER=$(prompt_marker '-' 20)
+	# Define date time to present on mark
+	local AUX_DATE=$(date "+%Y-%m-%d")
+	local AUX_TIME=$(date "+%H:%M:%S")
+	local PROMPT_DATE=$(prompt_color "normal,white" ${AUX_DATE})
+	local PROMPT_TIME=$(prompt_color "normal,white" ${AUX_TIME})
+	local PROMPT_DTIME="${PROMPT_DATE} ${PROMPT_TIME}"
+	# Set the individual components of the prompt
+	local PROMPT_OPEN=$(prompt_color "normal,red" '[')
+	local PROMPT_USER=$(prompt_color "normal,green" '\u')
+	local PROMPT_SEPARATOR=$(prompt_color "normal,yellow" '@')
+	local PROMPT_HOST=$(prompt_color "normal,blue" '\h')
+	local PROMPT_FOLDER=$(prompt_color "normal,cyan" '\W')
+	local PROMPT_GIT_BRANCH=$(prompt_color "normal,magenta" "$(__git_ps1 ' (%s)')")
+	local PROMPT_CLOSE=$(prompt_color "normal,red" ']$')
+	[[ -n "${VIRTUAL_ENV}" ]] && \
+		local PROMPT_PYTHON_ENV=$(prompt_color "dim,magenta" "{$(basename ${VIRTUAL_ENV})}")" "
+	# Finally export the compound PS1 prompt variable
+	export PS1=${PROMPT_ERR}${PROMPT_MAKER}' '${PROMPT_DTIME}'\n'${PROMPT_OPEN}${PROMPT_USER}${PROMPT_SEPARATOR}${PROMPT_HOST}' '${PROMPT_FOLDER}${PROMPT_GIT_BRANCH}' '${PROMPT_PYTHON_ENV}${PROMPT_CLOSE}' '
+}
+# Here, set the PROMPT_COMMAND to the above function
+export PROMPT_COMMAND=prompt_command
+
+# Prepare the command separation mark
+function prompt_marker() {
+	# Set the fill line
+	local size=$(( ${COLUMNS} - ${2} ))
+	local fill=""
+	while [[ ${size} -gt 0 ]]; do
+		fill="${1}${fill}"
+		size=$(( ${size} - 1 ))
+	done
+	# Output the marker
+	printf "%s" $(prompt_color "dim,white" "${fill}")
+}
+
+# Add the color requested to the string sent
+function prompt_color() {
+	# Extract parameters
+	local color=(${1//,/ })
+	local smode=${color[0]}
+	local sfore=${color[1]}
+	local sback=${color[2]}
+
+	# Only accept color if the terminal accepts it
+	if [[ "${color_prompt}" == "yes" ]]; then
+		# Set the styles to apply colors
+		[[ "${smode}" == "normal" ]]     && local mode=0
+		[[ "${smode}" == "bright" ]]     && local mode=1
+		[[ "${smode}" == "dim" ]]        && local mode=2
+		[[ "${smode}" == "underline" ]]  && local mode=4
+		[[ "${smode}" == "blink" ]]      && local mode=5
+		[[ "${smode}" == "reverse" ]]    && local mode=7
+		[[ "${smode}" == "nondisplay" ]] && local mode=8
+		# Set requested foreground color code
+		[[ "${sfore}" == "black" ]]   && local fore=30
+		[[ "${sfore}" == "red" ]]     && local fore=31
+		[[ "${sfore}" == "green" ]]   && local fore=32
+		[[ "${sfore}" == "yellow" ]]  && local fore=33
+		[[ "${sfore}" == "blue" ]]    && local fore=34
+		[[ "${sfore}" == "magenta" ]] && local fore=35
+		[[ "${sfore}" == "cyan" ]]    && local fore=36
+		[[ "${sfore}" == "white" ]]   && local fore=37
+		# Set requested background color code
+		[[ "${sback}" == "black" ]]   && local back=40
+		[[ "${sback}" == "red" ]]     && local back=41
+		[[ "${sback}" == "green" ]]   && local back=42
+		[[ "${sback}" == "yellow" ]]  && local back=43
+		[[ "${sback}" == "blue" ]]    && local back=44
+		[[ "${sback}" == "magenta" ]] && local back=45
+		[[ "${sback}" == "cyan" ]]    && local back=46
+		[[ "${sback}" == "white" ]]   && local back=47
+		# Embed the given string into the requested color
+		if [[ -n ${mode} ]] && [[ -z ${fore} ]] && [[ -z ${back} ]]; then
+			local setcolor=$(printf '\[\033[%sm\]' ${mode})
+		elif [[ -n ${mode} ]] && [[ -n ${fore} ]] && [[ -z ${back} ]]; then
+			local setcolor=$(printf '\[\033[%s;%sm\]' ${mode} ${fore})
+		elif [[ -n ${mode} ]] && [[ -n ${fore} ]] && [[ -n ${back} ]]; then
+			local setcolor=$(printf '\[\033[%s;%s;%sm\]' ${mode} ${fore} ${back})
+		else
+			local setcolor=$(printf '\[\033[0m\]')
+		fi
+		# Define the reset code
+		local resetcolor=$(printf '\[\033[0m\]')
+		# Wrap the output in selected color
+		printf "%s%s%s" ${setcolor} "${2}" ${resetcolor}
+	else
+		# No color supported
+		printf "%s" "${2}"
+	fi
+}
