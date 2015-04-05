@@ -98,6 +98,16 @@ function mkcd() {
 	cd "${*}"
 }
 
+# Move selection to a (new) folder
+function mksel() {
+	dest="${1}"
+	if [[ -d "${dest}" ]]; then
+		mkdir "${dest}"
+	fi
+	shift
+	mv ${@} "${dest}/"
+}
+
 # Activate Sublime Text 3 by the command line (CLI)
 function sbt() {
 	open -a "Sublime Text" ${@}
