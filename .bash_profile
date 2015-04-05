@@ -25,6 +25,11 @@ export AQSISHOME=/Applications/Aqsis.app
 # Include Aqsis configuration
 source ~/.aqsis_bash
 
+# Define Pixar RenderMan Pro Server 19 root path
+export RMANTREE=/usr/local/prman
+# Include Pixar RenderMan Pro Server 19 configuration
+source ~/.prman_bash
+
 # Python wirtualenv disable prompt change
 export VIRTUAL_ENV_DISABLE_PROMPT=yes
 

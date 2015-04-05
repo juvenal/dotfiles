@@ -1,0 +1,6 @@
+#! /usr/bin/bash
+
+if [[ -n ${RMANTREE} ]]; then
+	export PATH=${RMANTREE}/bin:${PATH}
+fi
+
