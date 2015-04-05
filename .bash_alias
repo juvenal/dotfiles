@@ -100,7 +100,7 @@ function mkcd() {
 
 # Activate Sublime Text 3 by the command line (CLI)
 function sbt() {
-	open -a "Sublime Text 2" ${@}
+	open -a "Sublime Text" ${@}
 }
 
 # Copy files from an m3u playlist to the specified folder/volume
