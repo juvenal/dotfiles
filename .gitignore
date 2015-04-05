@@ -1,0 +1,30 @@
+# Compiled files
+*.[oa]
+
+# OS X FS Noise
+.DS_Store
+
+# Xcode noise
+build/*
+*.mode1
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.pbxuser
+project.xcworkspace/*
+*.xcworkspacedata
+xcuserdata/
+*.xcuserdatad
+
+# Old school
+.svn
+CVS
+.tags*
+
+# Generic noise
+*~
+*.sw[op]
+
+# OS X Editor config files
+.editorconfig
+.tm_properties
