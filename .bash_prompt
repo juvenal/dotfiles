@@ -58,44 +58,62 @@ function prompt_color() {
 
 	# Only accept color if the terminal accepts it
 	if [[ "${color_prompt}" == "yes" ]]; then
-		# Set the styles to apply colors
-		[[ "${smode}" == "normal" ]]     && local mode=0
-		[[ "${smode}" == "bright" ]]     && local mode=1
-		[[ "${smode}" == "dim" ]]        && local mode=2
-		[[ "${smode}" == "underline" ]]  && local mode=4
-		[[ "${smode}" == "blink" ]]      && local mode=5
-		[[ "${smode}" == "reverse" ]]    && local mode=7
-		[[ "${smode}" == "nondisplay" ]] && local mode=8
-		# Set requested foreground color code
-		[[ "${sfore}" == "black" ]]   && local fore=30
-		[[ "${sfore}" == "red" ]]     && local fore=31
-		[[ "${sfore}" == "green" ]]   && local fore=32
-		[[ "${sfore}" == "yellow" ]]  && local fore=33
-		[[ "${sfore}" == "blue" ]]    && local fore=34
-		[[ "${sfore}" == "magenta" ]] && local fore=35
-		[[ "${sfore}" == "cyan" ]]    && local fore=36
-		[[ "${sfore}" == "white" ]]   && local fore=37
-		# Set requested background color code
-		[[ "${sback}" == "black" ]]   && local back=40
-		[[ "${sback}" == "red" ]]     && local back=41
-		[[ "${sback}" == "green" ]]   && local back=42
-		[[ "${sback}" == "yellow" ]]  && local back=43
-		[[ "${sback}" == "blue" ]]    && local back=44
-		[[ "${sback}" == "magenta" ]] && local back=45
-		[[ "${sback}" == "cyan" ]]    && local back=46
-		[[ "${sback}" == "white" ]]   && local back=47
-		# Embed the given string into the requested color
-		if [[ -n ${mode} ]] && [[ -z ${fore} ]] && [[ -z ${back} ]]; then
-			local setcolor=$(printf '\[\033[%sm\]' ${mode})
-		elif [[ -n ${mode} ]] && [[ -n ${fore} ]] && [[ -z ${back} ]]; then
-			local setcolor=$(printf '\[\033[%s;%sm\]' ${mode} ${fore})
-		elif [[ -n ${mode} ]] && [[ -n ${fore} ]] && [[ -n ${back} ]]; then
-			local setcolor=$(printf '\[\033[%s;%s;%sm\]' ${mode} ${fore} ${back})
-		else
-			local setcolor=$(printf '\[\033[0m\]')
-		fi
-		# Define the reset code
+		# Define the standard reset code
 		local resetcolor=$(printf '\[\033[0m\]')
+		# Check the kind or color request...
+		if [[ "${smode}" == "256" ]]; then
+			# If the color definition is numeric, use 256 color mode
+			if [[ -n "${sfore}" ]] && [[ -z "${sback}" ]]; then
+				# Set the 256 color code for the foreground
+				local setcolor=$(printf '\[\033[38;5;%sm\]' ${sfore})
+			elif [[ -z "${sfore}" ]] && [[ -n "${sback}" ]]; then
+				# Set the 256 color code for the background
+				local setcolor=$(printf '\[\033[48;5;%sm\]' ${sback})
+			elif [[ -n "${sfore}" ]] && [[ -n "${sback}" ]]; then
+				# Set both 256 color code foreground and background
+				local setcolor=$(printf '\[\033[38;5;%s;48;5;%sm\]' ${sfore} ${sback})
+			else
+				# No 256 color codes given, then reset colors...
+				local setcolor=$(printf '\[\033[0m\]')
+			fi
+		else
+			# Set the styles to apply the defined ANSI colors
+			[[ "${smode}" == "normal" ]]     && local mode=0
+			[[ "${smode}" == "bright" ]]     && local mode=1
+			[[ "${smode}" == "dim" ]]        && local mode=2
+			[[ "${smode}" == "underline" ]]  && local mode=4
+			[[ "${smode}" == "blink" ]]      && local mode=5
+			[[ "${smode}" == "reverse" ]]    && local mode=7
+			[[ "${smode}" == "nondisplay" ]] && local mode=8
+			# Set requested foreground color code
+			[[ "${sfore}" == "black" ]]   && local fore=30
+			[[ "${sfore}" == "red" ]]     && local fore=31
+			[[ "${sfore}" == "green" ]]   && local fore=32
+			[[ "${sfore}" == "yellow" ]]  && local fore=33
+			[[ "${sfore}" == "blue" ]]    && local fore=34
+			[[ "${sfore}" == "magenta" ]] && local fore=35
+			[[ "${sfore}" == "cyan" ]]    && local fore=36
+			[[ "${sfore}" == "white" ]]   && local fore=37
+			# Set requested background color code
+			[[ "${sback}" == "black" ]]   && local back=40
+			[[ "${sback}" == "red" ]]     && local back=41
+			[[ "${sback}" == "green" ]]   && local back=42
+			[[ "${sback}" == "yellow" ]]  && local back=43
+			[[ "${sback}" == "blue" ]]    && local back=44
+			[[ "${sback}" == "magenta" ]] && local back=45
+			[[ "${sback}" == "cyan" ]]    && local back=46
+			[[ "${sback}" == "white" ]]   && local back=47
+			# Embed the given string into the requested color
+			if [[ -n ${mode} ]] && [[ -z ${fore} ]] && [[ -z ${back} ]]; then
+				local setcolor=$(printf '\[\033[%sm\]' ${mode})
+			elif [[ -n ${mode} ]] && [[ -n ${fore} ]] && [[ -z ${back} ]]; then
+				local setcolor=$(printf '\[\033[%s;%sm\]' ${mode} ${fore})
+			elif [[ -n ${mode} ]] && [[ -n ${fore} ]] && [[ -n ${back} ]]; then
+				local setcolor=$(printf '\[\033[%s;%s;%sm\]' ${mode} ${fore} ${back})
+			else
+				local setcolor=$(printf '\[\033[0m\]')
+			fi
+		fi
 		# Wrap the output in selected color
 		printf "%s%s%s" ${setcolor} "${2}" ${resetcolor}
 	else
