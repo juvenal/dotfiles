@@ -8,7 +8,7 @@ if [[ -f ~/.bashrc ]]; then
 fi
 
 # Screen definition for X11 Server
-export DISPLAY=localhost:0.0
+export DISPLAY=:0
 
 # Define the 3DLight root path
 export DELIGHT=/Applications/3Delight
