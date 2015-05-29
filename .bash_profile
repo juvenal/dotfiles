@@ -10,25 +10,10 @@ fi
 # Screen definition for X11 Server
 export DISPLAY=:0
 
-# Define the 3DLight root path
-export DELIGHT=/Applications/3Delight
-# Include 3DLight configuration
-source ~/.3dlight_bash
-
-# Define Pixie root path
-export PIXIEHOME=/usr/local/Pixie
-# Include Pixie configuration
-source ~/.pixie_bash
-
-# Define Aqsis root path
-export AQSISHOME=/Applications/Aqsis.app
-# Include Aqsis configuration
-source ~/.aqsis_bash
-
-# Define Pixar RenderMan Pro Server 19 root path
-export RMANTREE=/usr/local/prman
-# Include Pixar RenderMan Pro Server 19 configuration
-source ~/.prman_bash
+# Load specific independent configuration scripts for 3rd party programs
+if [[ -d ~/.bash_profile.d ]]; then
+	source ~/.bash_profile.d/*_profile.sh
+fi
 
 # Python wirtualenv disable prompt change
 export VIRTUAL_ENV_DISABLE_PROMPT=yes

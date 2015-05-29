@@ -1,6 +1,0 @@
-#! /usr/bin/bash
-
-if [[ -n ${AQSISHOME} ]]; then
-	export PATH=${AQSISHOME}/Contents/Resources/bin:${PATH}
-fi
-

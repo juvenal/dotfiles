@@ -1,6 +1,10 @@
-#! /usr/bin/bash
+#! /usr/bash
 
-if [[ -n ${DELIGHT} ]]; then
+if [[ -d /Applications/3Delight ]]; then
+	# Define the 3DLight root path
+	export DELIGHT=/Applications/3Delight
+
+	# Set remaining environment
 	if [[ -n $DL_SHADERS_PATH ]]; then
 		export DL_SHADERS_PATH=.:${DELIGHT}/shaders:${DL_SHADERS_PATH}
 	else
@@ -39,4 +43,3 @@ if [[ -n ${DELIGHT} ]]; then
 
 	export PATH=$DELIGHT/bin:${PATH}
 fi
-

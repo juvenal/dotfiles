@@ -1,6 +1,10 @@
-#! /usr/bin/bash
+#! /usr/bash
 
-if [[ -n ${PIXIEHOME} ]]; then
+if [[ -d /usr/local/Pixie ]]; then
+	# Define Pixie root path
+	export PIXIEHOME=/usr/local/Pixie
+
+	# Set remaining environment
 	if [[ -n ${DISPLAYS} ]]; then
 		export DISPLAYS=.:${PIXIEHOME}/displays:${DISPLAYS}
 	else
@@ -21,4 +25,3 @@ if [[ -n ${PIXIEHOME} ]]; then
 
 	export PATH=${PIXIEHOME}/bin:${PATH}
 fi
-
