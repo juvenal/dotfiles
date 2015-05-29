@@ -28,7 +28,7 @@ function prompt_command() {
 	local PROMPT_GIT_BRANCH=$(prompt_color "normal,magenta" "$(__git_ps1 ' (%s)')")
 	local PROMPT_CLOSE=$(prompt_color "normal,red" ']$')
 	[[ -n "${VIRTUAL_ENV}" ]] && \
-		local PROMPT_PYTHON_ENV=$(prompt_color "dim,magenta" "[$(basename ${VIRTUAL_ENV})]")" "
+		local PROMPT_PYTHON_ENV=$(prompt_color "dim,magenta" "[$(basename "${VIRTUAL_ENV}")]")" "
 	# Finally export the compound PS1 prompt variable
 	export PS1=${PROMPT_ERR}${PROMPT_MAKER}' '${PROMPT_DTIME}'\n'${PROMPT_OPEN}${PROMPT_USER}${PROMPT_SEPARATOR}${PROMPT_HOST}' '${PROMPT_FOLDER}${PROMPT_GIT_BRANCH}' '${PROMPT_PYTHON_ENV}${PROMPT_CLOSE}' '
 }
@@ -38,14 +38,14 @@ export PROMPT_COMMAND=prompt_command
 # Prepare the command separation mark
 function prompt_marker() {
 	# Set the fill line
-	local size=$(( ${COLUMNS} - ${2} ))
+	local size=$(( COLUMNS - ${2} ))
 	local fill=""
 	while [[ ${size} -gt 0 ]]; do
 		fill="${1}${fill}"
-		size=$(( ${size} - 1 ))
+		size=$(( size - 1 ))
 	done
 	# Output the marker
-	printf "%s" $(prompt_color "dim,white" "${fill}")
+	printf "%s" "$(prompt_color "dim,white" "${fill}")"
 }
 
 # Add the color requested to the string sent

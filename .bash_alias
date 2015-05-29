@@ -77,8 +77,8 @@ alias ..='cd ..'
 #   $1 - Path to search in
 #   $2 - Path of text filelist
 function not_there() {
-	for FILE in $(cd ${1} && find . ! -path . -print | sed -r 's|^\.\/||g'); do
-		if ! grep -e "^${FILE}$" ${2} > /dev/null 2>&1; then
+	for FILE in $(cd "${1}" && find . ! -path . -print | sed -r 's|^\.\/||g'); do
+		if ! grep -e "^${FILE}$" "${2}" > /dev/null 2>&1; then
 			echo "${FILE}"
 		fi
 	done
@@ -105,26 +105,26 @@ function mksel() {
 		mkdir "${dest}"
 	fi
 	shift
-	mv ${@} "${dest}/"
+	mv "${@}" "${dest}/"
 }
 
 # Activate Sublime Text 3 by the command line (CLI)
 function sbt() {
-	open -a "Sublime Text" ${@}
+	open -a "Sublime Text" "${@}"
 }
 
 # Copy files from an m3u playlist to the specified folder/volume
 #   $1 - m3u file with list of files to copy
 #   $2 - destination folder to copy to
 function m3u2dir() {
-	for line in $(cat ${1} | tr '\r' '\n' | tr ' ' '%'); do
+	for line in $(tr '\r' '\n' < "${1}" | tr ' ' '%'); do
 		if [[ "${line:0:1}" == "#" ]]; then
 			continue
 		else
-			echo ${line}
-			file=$(echo ${line} | tr '%' ' ')
-			echo ${file}
-			cp "${file}" ${2}
+			echo "${line}"
+			file=$(echo "${line}" | tr '%' ' ')
+			echo "${file}"
+			cp "${file}" "${2}"
 		fi
 	done
 }
@@ -138,20 +138,20 @@ function bso() {
 	read -s IBM_PASSWD
 	echo
 	# Cycle thru servers
-	for SRV in $(cat ~/.bso_servers); do
+	while IFS= read -r server; do
 		# Try to expand any host nickname on .ssh/config
-		HOST="${SRV}"
-		HOSTNAME=$(grep ${SRV} ~/.ssh/config | grep HostName | awk '{print $2}')
+		HOST="${server}"
+		HOSTNAME=$(grep "${server}" ~/.ssh/config | grep HostName | awk '{print $2}')
 		if [[ "x${HOSTNAME}" == "x" ]]; then
 			# There is no host called ${HOST} on your SSH config file.
 			# Trying ${HOST} directly
 			HOSTNAME=${HOST}
 		fi
 		# Check its BSO clearance on given host network
-		bso_active=$(curl https://${HOSTNAME}:443/ -s -k -o - | grep -o 'Firewall')
+		bso_active=$(curl https://"${HOSTNAME}":443/ -s -k -o - | grep -o 'Firewall')
 		if [[ "${bso_active}" == "Firewall" ]]; then
 			# Perform domain clearance if needed...
-			request=$(curl https://${HOSTNAME}:443/ -s -k -o - \
+			request=$(curl https://"${HOSTNAME}":443/ -s -k -o - \
 						-d "au_pxytimetag=$(date +%s)&uname=${IBM_MAIL}&pwd=${IBM_PASSWD}&ok=OK" \
 						| sed -e 's:.*<H1>::g' -e 's:</H1>.*::g' -e 's:<[^>]*>:\n:g' \
 						| head -n 3 | grep -o "BSO Authentication Successfull")
@@ -163,19 +163,23 @@ function bso() {
 		else
 			echo "Host ${HOSTNAME} already opened"
 		fi
-	done
+	done < <(grep -v "^ #*" ~/.bso_servers)
 }
 
 
 function extract_rar() {
 	if [[ -f ${1} ]]; then
-		namedir=$(echo ${1} | tr ' ' '_' | tr [:upper:] [:lower:])
-		if [[ -d ${namedir} ]]; then
-			mv ${namedir} ${namedir}_
+		origdir=$(echo "${1}" | tr ' ' '_' | tr "[:upper:]" "[:lower:]")
+		namedir=${origdir}
+		while [[ -d ${namedir} ]]; do
+			namedir="${namedir}_"
+		done
+		if [[ "${origdir}" != "${namedir}" ]]; then
+			mv "${origdir}" "${namedir}"
 		fi
-		mkdir ${namedir}
-		pushd ./${namedir} > /dev/null
-		echo "Expanding ${1} into ${namedir}"
+		mkdir "${origdir}"
+		pushd ./"${origdir}" > /dev/null
+		echo "Expanding ${1} into ${origdir}"
 		rar x ../"${1}"
 		popd > /dev/null
 	else
