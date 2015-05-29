@@ -58,6 +58,14 @@ if [[ -f ~/.bash_alias ]]; then
     source ~/.bash_alias
 fi
 
+# Small function definitions
+# You may want to put all your housekeeping small bash functions in a separate
+# file like ~/.bash_functions, instead of adding them here directly, or into
+# another auxiliary file, like ~/.bash_alias.
+if [[ -f ~/.bash_functions ]]; then
+	source ~/.bash_functions
+fi
+
 # Enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bashrc and/or /etc/profile
 # Load personal completions if defined
