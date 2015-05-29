@@ -12,7 +12,9 @@ export DISPLAY=:0
 
 # Load specific independent configuration scripts for 3rd party programs
 if [[ -d ~/.bash_profile.d ]]; then
-	source ~/.bash_profile.d/*_profile.sh
+	for profile in ~/.bash_profile.d/*_profile.sh; do
+		source "${profile}"
+	done
 fi
 
 # Python wirtualenv disable prompt change
