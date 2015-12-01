@@ -68,5 +68,9 @@ alias thoughts='cd ${HOME}/Documents/Projects/Sites/Active\ Sites/Development/th
 # Verify GIT projects that need a fetch
 alias check_git='for PRJ in $(ls *); do if [[ -d ${PRJ} ]]; then pushd ${PRJ} > /dev/null; if [[ ! -d .git ]]; then echo "Projeto ${PRJ} is not a git repo"; fi; popd > /dev/null; fi; done;'
 
-# some cd aliases
+# Some cd aliases
 alias ..='cd ..'
+
+# Remove and/or start VMware AppCatalyst daemon
+alias start_catalyst='bash_fork appcatalyst-daemon'
+alias stop_catalyst='gkill -TERM -F ${HOME}/.local/var/run/appcatalyst-daemon.pid'

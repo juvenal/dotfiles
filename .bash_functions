@@ -17,7 +17,7 @@
 #   $2 - Path of text filelist
 #
 # Example:
-#   .
+#   not_there <searchpath> <filelist_path>
 #
 function not_there() {
 	for FILE in $(cd "${1}" && find . ! -path . -print | sed -r 's|^\.\/||g'); do
@@ -36,7 +36,7 @@ function not_there() {
 #   none.
 #
 # Example:
-#   .
+#   record
 #
 function record() {
 	if [[ ! -s "${HOME}/Documents/ShellLogs" ]]; then
@@ -54,7 +54,7 @@ function record() {
 #   $1 - folder name to create.
 #
 # Example:
-#   .
+#   mkcd <foldername>
 #
 function mkcd() {
 	mkdir -p "${*}"
@@ -71,7 +71,7 @@ function mkcd() {
 #   $2 - In fact, remaining parameters are filenames to move into $1.
 #
 # Example:
-#   .
+#   mksel <enclosed_folder> <file> [...]
 #
 function mksel() {
 	dest="${1}"
@@ -91,7 +91,7 @@ function mksel() {
 #   $@ - All possible parameters are filenames/folders to open.
 #
 # Example:
-#   .
+#   sbt <file> [...]
 #
 function sbt() {
 	open -a "Sublime Text" "${@}"
@@ -107,7 +107,7 @@ function sbt() {
 #   $2 - destination folder to copy to.
 #
 # Example:
-#   .
+#   m3u2dir <m3u_playlist>
 #
 function m3u2dir() {
 	for line in $(tr '\r' '\n' < "${1}" | tr ' ' '%'); do
@@ -131,7 +131,7 @@ function m3u2dir() {
 #   none.
 #
 # Example:
-#   .
+#   bso
 #
 function bso() {
 	# Set your credentials
@@ -179,7 +179,7 @@ function bso() {
 #   $1 - Pathname of RAR archive to extract.
 #
 # Example:
-#   .
+#   extract_rar <rarfile>
 #
 function extract_rar() {
 	if [[ -f "${1}" ]]; then
@@ -211,7 +211,7 @@ function extract_rar() {
 #   $1 - Pathname of ZIP archive to extract.
 #
 # Example:
-#   .
+#   extract_zip <zipfile>
 #
 function extract_zip() {
 	if [[ -f "${1}" ]]; then
@@ -230,5 +230,53 @@ function extract_zip() {
 		popd > /dev/null
 	else
 		echo "Archive not found... Skipping"
+	fi
+}
+
+
+# Function: bash_fork()
+#
+# Description:
+#   Start the given process in the background, creating a log file and a
+#   PID file to identify the running process.
+#
+# Parameters:
+#   $1 - The process name to be executed
+#
+# Example:
+#   bash_fork <name_of_command>
+#
+function bash_fork() {
+	# Identify the process name
+	local process_name=${1}
+
+	# Set the logdir pathname and date time
+	local dtnow="$(date "+%Y-%m-%d %H:%M:%S")"
+	local logdir="${HOME}/.local/var/log"
+	local piddir="${HOME}/.local/var/run"
+
+	# Set the logdir/piddir if non existent
+	[[ -d "${logdir}" ]] || mkdir -p "${logdir}"
+	[[ -d "${piddir}" ]] || mkdir -p "${piddir}"
+
+	# Define the log/pid filenames to store
+	local process_log="${logdir}/$(basename "${process_name}").log"
+	local process_pid="${piddir}/$(basename "${process_name}").pid"
+
+	# Check for $process_pid file/process existence
+	if [[ -f ${process_pid} ]] && pgrep -F "${process_pid}" > /dev/null 2>&1; then
+		echo "[Information]: Aborted startup of process ${1}, already running at pid $(cat "${process_pid}")" >> "${process_log}"
+	else
+		# If process_log does exist, add a section separator
+		[[ -f ${process_log} ]] && \
+			echo -e "\n**************************" >> "${process_log}"
+
+		# Signal the start process
+		echo "Starting process '${1}' at ${dtnow}." >> "${process_log}"
+		echo "- Command used: ${*}" >> "${process_log}"
+
+		# Perform the fork logging the output
+		("${@}" >> "${process_log}" 2>&1 &
+		 echo "${!}" > "${process_pid}")
 	fi
 }

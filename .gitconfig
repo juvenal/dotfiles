@@ -1,6 +1,10 @@
 [user]
 	email = juvenal.silva.jr@gmail.com
 	name = Juvenal A. Silva Jr.
+[gui]
+	recentrepo = /Users/juvenal/Documents/Projects/Sites/Active Sites/Development/sample-git
+	recentrepo = /Users/juvenal/Documents/Projects/in-git/reyes
+	recentrepo = /Users/juvenal/Documents/Projects/in-git/openrender
 [color]
 	diff = auto
 	status = auto
@@ -33,4 +37,8 @@
 [filter "hawser"]
 	clean = git hawser clean %f
 	smudge = git hawser smudge %f
+	required = true
+[filter "lfs"]
+	clean = git lfs clean %f
+	smudge = git lfs smudge %f
 	required = true
