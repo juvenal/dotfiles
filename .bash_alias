@@ -64,6 +64,7 @@ alias chmox='cd ${HOME}/Documents/Projects/in-git/Chmox'
 alias v2labs='cd ${HOME}/Documents/Projects/Sites/Active\ Sites/Development/v2-labs'
 alias juvenal='cd ${HOME}/Documents/Projects/Sites/Active\ Sites/Development/juvenalsilva'
 alias thoughts='cd ${HOME}/Documents/Projects/Sites/Active\ Sites/Development/thoughts'
+alias vmnet='sudo /opt/vmware/appcatalyst/libexec/services/services.sh'
 
 # Verify GIT projects that need a fetch
 alias check_git='for PRJ in $(ls *); do if [[ -d ${PRJ} ]]; then pushd ${PRJ} > /dev/null; if [[ ! -d .git ]]; then echo "Projeto ${PRJ} is not a git repo"; fi; popd > /dev/null; fi; done;'
