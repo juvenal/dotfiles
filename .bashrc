@@ -83,4 +83,13 @@ else
 	export PS1='[\u@\h \W]$ '
 fi
 
-export PATH="${PATH}:${HOME}/.rvm/bin" # Add RVM to PATH for scripting
+# Load specific non-interactive configuration scripts for 3rd party programs
+if [[ -d ~/.bashrc.d ]]; then
+	for config in ~/.bashrc.d/*_bashrc.sh; do
+		source "${config}"
+	done
+fi
+
+# Set user PATH.
+# This sets a custom user PATH.
+export PATH="${HOME}/.local/bin:${HOME}/.bin:${PATH}:${HOME}/.rvm/bin" # Add RVM to PATH for scripting
