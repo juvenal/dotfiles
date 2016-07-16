@@ -22,6 +22,9 @@
 	unstage = reset HEAD --
 	ps = push
 	pl = pull
+	tagcommit = rev-list -n 1
+	headcommit = rev-parse HEAD
+	glog = log --pretty=format:'%h - %an, %ar: %s' --graph
 [merge]
 	tool = opendiff
 [difftool "sourcetree"]
