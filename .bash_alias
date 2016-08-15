@@ -76,8 +76,9 @@ alias ..='cd ..'
 alias start_catalyst='bash_fork appcatalyst-daemon'
 alias stop_catalyst='gkill -TERM -F ${HOME}/.local/var/run/appcatalyst-daemon.pid'
 
-# This alias is required on Fedora and RHEL to allow normal users to run docker
-# It must be accompained by the sudo docker config (as well as inclusion of the
-# docker group).
-[[ "$(uname -s)" == "Linux" ]] && \
-    alias docker='sudo /usr/bin/docker'
+## Uncomment these last 2 lines to activate it
+## This alias is required on Fedora and RHEL to allow normal users to run docker
+## It must be accompained by the sudo docker config (as well as inclusion of the
+## docker group).
+# [[ "$(uname -s)" == "Linux" ]] && \
+#     alias docker='sudo /usr/bin/docker'
