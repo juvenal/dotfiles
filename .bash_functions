@@ -310,3 +310,20 @@ function vpid() {
 function lpid() {
 	ps ax | grep -i ${1} | grep -v 'grep' | sed 's/^ *//' | cut -f 1 -d " "
 }
+
+# Function: rpasswd()
+#
+# Description:
+#   Generates a random password, constrained by the size given
+#   (defaults to 8 chars)
+#
+# Parameters:
+#   $1 - Size of password to be generated...
+#
+# Example:
+#   rpasswd <size_of_password>
+#
+function rpasswd() {
+	local passwd_size=${1:-8}
+	</dev/urandom tr -dc '12345!@#$%qwertQWERTasdfgASDFGzxcvbZXCVB' | head -c${passwd_size}; echo ""
+}
