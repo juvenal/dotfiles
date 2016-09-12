@@ -310,3 +310,21 @@ function vpid() {
 function lpid() {
 	ps ax | grep -i ${1} | grep -v 'grep' | sed 's/^ *//' | cut -f 1 -d " "
 }
+
+# Function: randpwd()
+#
+# Description:
+#   Generate a random password
+#
+# Parameters:
+#   $1 - desired password size (if not defined, assumed 12)
+#
+# Example:
+#   randpwd <passwd_size>
+#
+function randpwd() {
+	cat /dev/urandom | \
+	LC_CTYPE=C tr -dc '12345!@#$%qwertQWERTasdfgASDFGzxcvbZXCVB' | \
+	head -c${1:-12}
+	echo ""
+}
