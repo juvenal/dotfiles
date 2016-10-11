@@ -140,6 +140,8 @@ function bso() {
 	echo -n "Type your intranet password: "
 	read -s IBM_PASSWD
 	echo
+	# Normalize the password special ampersand
+	IBM_PASSWD=${IBM_PASSWD//\&/\%26}
 	# Cycle thru servers
 	while IFS= read -r server; do
 		# Try to expand any host nickname on .ssh/config
