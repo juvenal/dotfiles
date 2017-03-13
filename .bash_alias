@@ -82,3 +82,6 @@ alias stop_catalyst='gkill -TERM -F ${HOME}/.local/var/run/appcatalyst-daemon.pi
 ## docker group).
 # [[ "$(uname -s)" == "Linux" ]] && \
 #     alias docker='sudo /usr/bin/docker'
+
+# Some quick one liner to create directories inside protected areas
+alias pmkdir='sudo install -o $(id -u) -g $(id -g) -d'
