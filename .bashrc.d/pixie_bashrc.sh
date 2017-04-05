@@ -1,8 +1,8 @@
 #! /usr/bash
 
-if [[ -d /usr/local/Pixie ]]; then
+if [[ -d /Applications/Pixie ]]; then
 	# Define Pixie root path
-	export PIXIEHOME=/usr/local/Pixie
+	export PIXIEHOME=/Applications/Pixie
 
 	# Set remaining environment
 	if [[ -n ${DISPLAYS} ]]; then
@@ -21,6 +21,10 @@ if [[ -d /usr/local/Pixie ]]; then
 		export DYLD_LIBRARY_PATH=${PIXIEHOME}/lib:${DYLD_LIBRARY_PATH}
 	else
 		export DYLD_LIBRARY_PATH=${PIXIEHOME}/lib
+	fi
+
+	if [[ -n ${MANPATH} ]]; then
+		export MANPATH=${PIXIEHOME}/man:${MANPATH}
 	fi
 
 	export PATH=${PIXIEHOME}/bin:${PATH}
