@@ -20,3 +20,14 @@
 	tagcommit = rev-list -n 1
 	headcommit = rev-parse HEAD
 	glog = log --pretty=format:'%h - %an, %ar: %s' --graph
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[sendemail]
+	smtpEncryption = tls
+	smtpServer = smtp.gmail.com
+	smtpUser = <your.email>@gmail.com
+	smtpServerPort = 587
+	confirm = auto
