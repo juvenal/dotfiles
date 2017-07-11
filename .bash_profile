@@ -1,4 +1,3 @@
-#!/bin/bash
 # .bash_profile
 #
 # Interactive settings go here
@@ -37,11 +36,20 @@ fi
 # NVM (Node.js Version Manager) Setup
 export NVM_DIR="${HOME}/.nvm"
 [[ -s "${NVM_DIR}/nvm.sh" ]] && \
-	source "${NVM_DIR}/nvm.sh" # This loads nvm
+	source "${NVM_DIR}/nvm.sh" # Load nvm into shell session
 
 # GVM {Go Version Manager} Setup
 [[ -s "${HOME}/.gvm/scripts/gvm" ]] && \
-	source "${HOME}/.gvm/scripts/gvm"
+	source "${HOME}/.gvm/scripts/gvm" # Load gvm into shell session
 
 # RVM install as a function to the active shell
-[[ -s "${HOME}/.rvm/scripts/rvm" ]] && source "${HOME}/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+[[ -s "${HOME}/.rvm/scripts/rvm" ]] && \
+	source "${HOME}/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+# Check for iTerm before running its integration (macOS specific)
+[[ "${TERM_PROGRAM}" == "iTerm.app" ]] && \
+	[[ -e "${HOME}/.iterm2_shell_integration.bash" ]] && \
+		source "${HOME}/.iterm2_shell_integration.bash"
+
+# Set user PATH.
+export PATH="${HOME}/bin:${PATH}:${HOME}/.rvm/bin" # Add RVM to PATH for scripting

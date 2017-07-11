@@ -1,4 +1,4 @@
-#! /usr/bash
+#!/bin/bash
 
 if [[ -d /Applications/Aqsis.app ]]; then
 	# Define Aqsis root path

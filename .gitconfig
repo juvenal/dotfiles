@@ -1,10 +1,6 @@
 [user]
-	email = juvenal.silva.jr@gmail.com
 	name = Juvenal A. Silva Jr.
-[gui]
-	recentrepo = /Users/juvenal/Documents/Projects/Sites/Active Sites/Development/sample-git
-	recentrepo = /Users/juvenal/Documents/Projects/in-git/reyes
-	recentrepo = /Users/juvenal/Documents/Projects/in-git/openrender
+	email = juvenal.silva.jr@gmail.com
 [color]
 	diff = auto
 	status = auto
@@ -13,7 +9,6 @@
 	ui = auto
 [core]
 	excludesfile = /Users/juvenal/.gitignore
-#	editor = mate -w
 [alias]
 	st = status
 	ci = commit
@@ -25,23 +20,3 @@
 	tagcommit = rev-list -n 1
 	headcommit = rev-parse HEAD
 	glog = log --pretty=format:'%h - %an, %ar: %s' --graph
-[merge]
-	tool = opendiff
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
-[filter "media"]
-	required = true
-	clean = git media clean %f
-	smudge = git media smudge %f
-[filter "hawser"]
-	clean = git hawser clean %f
-	smudge = git hawser smudge %f
-	required = true
-[filter "lfs"]
-	clean = git lfs clean %f
-	smudge = git lfs smudge %f
-	required = true

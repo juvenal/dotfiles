@@ -1,4 +1,4 @@
-#! /usr/bash
+#!/bin/bash
 
 if [[ -d /Applications/Pixie ]]; then
 	# Define Pixie root path

@@ -3,11 +3,11 @@
 # .bash_completion
 #
 
-# Add brew completions if available on home directory ".local"
+# Add brew completions if available on directory "/usr/local"
 # This avoids possible broken completion scripts marked with an
 # ".off" extension...
-if [[ -d ${HOME}/.local/etc/bash_completion.d ]]; then
-	for FILE in ${HOME}/.local/etc/bash_completion.d/*; do
+if [[ -d /usr/local/etc/bash_completion.d ]]; then
+	for FILE in /usr/local/etc/bash_completion.d/*; do
 		name=$(basename "${FILE}")
 		[[ "${name##*.}" != "off" ]] && source "${FILE}"
 	done

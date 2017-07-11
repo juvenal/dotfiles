@@ -1,4 +1,4 @@
-#! /usr/bash
+#!/bin/bash
 
 if [[ -d /usr/local/prman ]]; then
 	# Define Pixar RenderMan Pro Server 19(+) root path

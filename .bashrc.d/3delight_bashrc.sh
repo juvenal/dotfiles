@@ -1,4 +1,4 @@
-#! /usr/bash
+#!/bin/bash
 
 if [[ -d /Applications/3Delight ]]; then
 	# Define the 3DLight root path

@@ -1,4 +1,3 @@
-#!/bin/bash
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -29,23 +28,23 @@ shopt -s checkwinsize
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "${TERM}" in
-    rxvt*|xterm-*color|screen-*color)
-		color_prompt=yes
+	rxvt*|xterm-*color|screen-*color)
+		export TERM_COLOR=yes
 		;;
 	*)
-		color_prompt=no
+		export TERM_COLOR=no
 		;;
 esac
 
 if [[ "${force_color_prompt}" == "yes" ]]; then
-    if [[ -x /usr/bin/tput ]] && tput setaf 1 >&/dev/null; then
+	if [[ -x /usr/bin/tput ]] && tput setaf 1 >&/dev/null; then
 		# We have color support; assume it's compliant with Ecma-48
 		# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
 		# a case would tend to support setf rather than setaf.)
-		color_prompt=yes
-    else
-		color_prompt=no
-    fi
+		export TERM_COLOR=yes
+	else
+		export TERM_COLOR=no
+	fi
 	# Clear unused variables
 	unset force_color_prompt
 fi
@@ -55,7 +54,7 @@ fi
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 if [[ -f ~/.bash_alias ]]; then
-    source ~/.bash_alias
+	source ~/.bash_alias
 fi
 
 # Small function definitions
@@ -66,14 +65,14 @@ if [[ -f ~/.bash_functions ]]; then
 	source ~/.bash_functions
 fi
 
-# Enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bashrc and/or /etc/profile
+# Enable programmable completion features
+# Load default completions if available
+if [[ -f /etc/bash_completion ]]; then
+	source /etc/bash_completion
+fi
 # Load personal completions if defined
 if [[ -f ~/.bash_completion ]]; then
-    source ~/.bash_completion
-# Otherwise, load defaults
-elif [[ -f /etc/bash_completion ]]; then
-	source /etc/bash_completion
+	source ~/.bash_completion
 fi
 
 # Finally, set the tweaked, custom prompt.
@@ -89,7 +88,3 @@ if [[ -d ~/.bashrc.d ]]; then
 		source "${config}"
 	done
 fi
-
-# Set user PATH.
-# This sets a custom user PATH.
-export PATH="${HOME}/.bin:${PATH}:${HOME}/.rvm/bin" # Add RVM to PATH for scripting

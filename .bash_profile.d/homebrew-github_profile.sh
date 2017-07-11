@@ -1,3 +1,5 @@
+#!/bin/bash
+#
 # This is a token for unlimited github access, used by Homebrew scripts
 #
 

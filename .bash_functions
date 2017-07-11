@@ -76,7 +76,7 @@ function mkcd() {
 function mksel() {
 	dest="${1}"
 	if [[ -d "${dest}" ]]; then
-		mkdir "${dest}"
+		mkdir -p "${dest}"
 	fi
 	shift
 	mv "${@}" "${dest}/"
@@ -95,6 +95,21 @@ function mksel() {
 #
 function sbt() {
 	open -a "Sublime Text" "${@}"
+}
+
+# Funtion: atom()
+#
+# Description:
+#   Activate Atom by the command line (CLI).
+#
+# Parameters:
+#   $@ - All possible parameters are filenames/folders to open.
+#
+# Example:
+#   atom <file> [...]
+#
+function atom() {
+	open -a "Atom" "${@}"
 }
 
 # Funtion: m3u2dir()
