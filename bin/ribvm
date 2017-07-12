@@ -1,0 +1,109 @@
+#! /bin/bash
+#
+#
+#
+#
+#
+#
+#
+#
+
+# /usr/bin/osascript -e 'do shell script "ls -alF /" with administrator privileges'
+
+function show_header() {
+	echo -en "\
+$(basename ${0}): RenderMan (RIB) Version Manager v0.2
+\t(C) 2017 Juvenal A. Silva Jr.\n
+"
+}
+
+function show_help_usage() {
+	show_header
+	echo -en "\
+This simple utility manages multiple Pixar RenderMan Pro Server versions
+installed on a sigle machine, selecting amongst them, the current active one
+to be used.
+
+Possible commands available at the moment:
+- help: Shows this help information. Can be abbreviated as -h
+- install: Set the required path permissions so the utility can operate
+           properly.
+- list: List all current available Pixar RenderMan Pro Server versions
+        available.
+- use <version>: Set the <version> informed as the current one.
+"
+}
+
+function show_help_cmd_install() {
+	show_header
+	echo -en "\
+The utility wasn't properly installed yet. Please run:
+# $(basename ${0}) install
+To install it properly, before attempt to use it to manage your Pixar RenderMan
+Pro Server installed versions.
+"
+	exit 1
+}
+
+function show_help_cmd_use() {
+	show_header
+	echo -en "\
+The version informed isn't a correct version number of any of the
+currently installed Pixar RenderMan Pro Server version available.
+Please check the version number informed and try again.
+"
+	exit 1
+}
+
+function list_versions() {
+	echo -en "\nPixar RenderMan Pro Server versions (installed):\n\n"
+	for version in /Applications/Pixar/RenderManProServer*; do
+		echo -en "\t${version##*-}\n"
+	done
+}
+
+function use_version() {
+	local version=${1}
+	[[ ! -d /Applications/Pixar/RenderManProServer-${version} ]] && \
+		show_help-cmd_use
+	for folder in /Applications/Pixar/RenderManProServer-${version}/*; do
+		if [[ -d ${folder} ]]; then
+			[[ -L /usr/local/prman/$(basename ${folder}) ]] && \
+				rm /usr/local/prman/$(basename ${folder})
+			ln -s ${folder} /usr/local/prman/$(basename ${folder})
+		fi
+	done
+}
+
+command=${1}
+shift
+
+[[ -z "${command}" ]] && { show_help_usage; exit 1; }
+
+[[ ! -O /usr/local/prman ]] && show_help_cmd_install
+
+case "${command}" in
+	list)
+		list_versions
+		;;
+	use)
+		vernum=${1}
+		[[ -z "${vernum}" ]] && show_help_cmd_use
+		[[ "${vernum}" =~ ^[0-9.]+$ ]] || show_help_cmd_use
+		use_version ${vernum}
+		;;
+	install)
+		sudo sh -c '
+		[[ ! -d /usr/local/prman ]] && mkdir /usr/local/prman
+		[[ ! -O /usr/local/prman ]] && chown -R $(id -u) /usr/local/prman
+		'
+		;;
+	help|-h)
+		show_help_usage
+		exit 0
+		;;
+	*)
+		show_help_usage
+		exit 1
+		;;
+esac
