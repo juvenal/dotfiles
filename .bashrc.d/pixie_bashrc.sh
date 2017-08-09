@@ -1,4 +1,4 @@
-#!/bin/bash
+# Pixie Rendering Engine configuration include
 
 if [[ -d /Applications/Pixie ]]; then
 	# Define Pixie root path

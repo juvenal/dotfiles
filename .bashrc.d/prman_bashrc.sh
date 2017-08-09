@@ -1,7 +1,7 @@
-#!/bin/bash
+# Pixar RenderMan Rendering Engine configuration include
 
 if [[ -d /usr/local/prman ]]; then
-	# Define Pixar RenderMan Pro Server 19(+) root path
+	# Define Pixar RenderMan Pro Server root path
 	export RMANTREE=/usr/local/prman
 
 	# Set remaining environment

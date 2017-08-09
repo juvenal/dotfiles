@@ -1,4 +1,4 @@
-#!/bin/bash
+# Aqsis Rendering Engine configuration include
 
 if [[ -d /Applications/Aqsis.app ]]; then
 	# Define Aqsis root path

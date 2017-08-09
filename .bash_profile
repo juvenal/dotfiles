@@ -1,6 +1,6 @@
 # .bash_profile
 #
-# Interactive settings go here
+# Login shell settings go here
 #
 
 # Set basic variables, get aliases and functions

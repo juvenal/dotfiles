@@ -1,6 +1,4 @@
-#!/bin/bash
 # .bash_prompt
-#
 
 # First of all, set the prompt function
 function prompt_command() {

@@ -1,4 +1,4 @@
-#!/bin/bash
+# 3Delight Rendering Engine configuration include
 
 if [[ -d /Applications/3Delight ]]; then
 	# Define the 3DLight root path

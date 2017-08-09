@@ -1,4 +1,4 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
+# ~/.bashrc: executed by bash(1) for interactive shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
@@ -82,7 +82,7 @@ else
 	export PS1='[\u@\h \W]$ '
 fi
 
-# Load specific non-interactive configuration scripts for 3rd party programs
+# Load specific configuration scripts for interactive 3rd party programs
 if [[ -d ~/.bashrc.d ]]; then
 	for config in ~/.bashrc.d/*_bashrc.sh; do
 		source "${config}"
