@@ -56,9 +56,17 @@ Please check the version number informed and try again.
 }
 
 function list_versions() {
-	echo -en "\nPixar RenderMan Pro Server versions (installed):\n\n"
+	echo -en "\nPixar RenderMan Pro Server versions (installed)\n\n"
+	local active_version=$(ls -alF '/usr/local/prman/bin' | \
+							sed 's|^.*RenderManProServer-||g' | \
+							sed 's|/bin||g')
 	for version in /Applications/Pixar/RenderManProServer*; do
-		echo -en "\t${version##*-}\n"
+		if [[ "${active_version}" == "${version##*-}" ]]; then
+			local use_prefix="=> "
+		else
+			local use_prefix="   "
+		fi
+		echo -en "${use_prefix}${version##*-}\n"
 	done
 }
 
