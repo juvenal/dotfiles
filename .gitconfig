@@ -29,5 +29,6 @@
 	smtpEncryption = tls
 	smtpServer = smtp.gmail.com
 	smtpUser = <your.email>@gmail.com
+	smtpPass = <your app password>
 	smtpServerPort = 587
 	confirm = auto
