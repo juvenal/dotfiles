@@ -72,4 +72,3 @@ alias chmox='cd ${PROJECTS_FOLDER}/Development/Xcode/Chmox'
 alias v2labs='cd ${PROJECTS_FOLDER}/Development/Web/blogs/v2-labs.github.io'
 alias juvenal='cd ${PROJECTS_FOLDER}/Development/Web/blogs/juvenal.github.io'
 #alias thoughts='cd ${PROJECTS_FOLDER}/Development/Web/blogs/thoughts'
-

@@ -47,4 +47,3 @@ for SESSION in ${SESSIONS}; do
 done
 # Attach the default session
 ${tmux} attach -t ${DEFAULT}
-
