@@ -41,9 +41,6 @@ alias tm_add='xattr -d com.apple.metadata:com_apple_backup_excludeItem'
 alias tm_remove='xattr -w com.apple.metadata:com_apple_backup_excludeItem com.apple.backupd'
 alias tm_check='tmutil isexcluded'
 
-# CrashPlan tunnel setup
-#alias crashplan='ssh -L 4200:127.0.0.1:4243 crashplan@crashplan.internal-v2-lab.com.br -N -v -v'
-
 # Utilities for VMware AppCatalyst daemon if installed
 if [[ -n "$(command -v appcatalyst-daemon)" ]]; then
 	alias catalyst_vmnet='sudo /opt/vmware/appcatalyst/libexec/services/services.sh'
