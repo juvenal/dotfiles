@@ -1,0 +1,3 @@
+# CRASHPLAN_USER: user name to connect to on the server
+# CRASHPLAN_HOST: host name (or IP) of the headless crashplan server
+# CRASHPLAN_INFO: local directory where the crashplan token ID file is
