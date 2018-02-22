@@ -1,4 +1,7 @@
 # .bash_prompt
+#
+# Prompt configuration settings
+#
 
 # First of all, set the prompt function
 function prompt_command() {
