@@ -11,3 +11,9 @@ if [[ -d /usr/local/etc/bash_completion.d ]]; then
 fi
 
 # Add your specific completions below...
+if [[ -d ${HOME}/.bash_completion.d ]]; then
+    for FILE in ${HOME}/.bash_completion.d/*; do
+        name=$(basename "${FILE}")
+        [[ "${name##*.}" != "off" ]] && source "${FILE}"
+    done
+fi
