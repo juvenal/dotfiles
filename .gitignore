@@ -1,7 +1,7 @@
 # Compiled files
 *.[oa]
 
-# OS X FS Noise
+# macOS FS Noise
 .DS_Store
 
 # Xcode noise
@@ -26,6 +26,5 @@ CVS
 *~
 *.sw[op]
 
-# OS X Editor config files
-.editorconfig
+# macOS Editor config files
 .tm_properties
