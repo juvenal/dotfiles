@@ -73,11 +73,11 @@ function mkcd() {
 #
 function mksel() {
 	dest="${1}"
-	if [[ -d "${dest}" ]]; then
+	if [[ ! -d "${dest}" ]]; then
 		mkdir -p "${dest}"
 	fi
 	shift
-	mv "${@}" "${dest}/"
+	mv ${@} "${dest}/"
 }
 
 # Funtion: sbt()
