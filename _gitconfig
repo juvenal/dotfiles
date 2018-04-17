@@ -1,6 +1,6 @@
 [user]
-	name = Juvenal A. Silva Jr.
-	email = juvenal.silva.jr@gmail.com
+	name = <your.full.name>
+	email = <your.email.address>
 [color]
 	diff = auto
 	status = auto
@@ -8,7 +8,7 @@
 	interactive = auto
 	ui = auto
 [core]
-	excludesfile = /Users/juvenal/.gitignore
+	excludesfile = <your.homedir>/.gitignore
 [alias]
 	st = status
 	ci = commit
@@ -28,7 +28,7 @@
 [sendemail]
 	smtpEncryption = tls
 	smtpServer = smtp.gmail.com
-	smtpUser = <your.email>@gmail.com
-	smtpPass = <your app password>
+	smtpUser = <your.email.address>
+	smtpPass = <your.app.password>
 	smtpServerPort = 587
 	confirm = auto
