@@ -1,3 +1,5 @@
+# shellcheck disable=SC2148
+
 # Function: randpwd()
 #
 # Description:

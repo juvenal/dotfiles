@@ -2,6 +2,7 @@
 *.[oa]
 
 # macOS FS Noise
+._*
 .DS_Store
 
 # Xcode noise

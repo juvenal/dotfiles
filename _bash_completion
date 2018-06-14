@@ -1,19 +1,20 @@
 # .bash_completion
 
+# shellcheck disable=SC2148
+
+
 # Add brew completions if available on directory "/usr/local"
 # This avoids possible broken completion scripts marked with an
 # ".off" extension...
 if [[ -d /usr/local/etc/bash_completion.d ]]; then
-	for FILE in /usr/local/etc/bash_completion.d/*; do
-		name=$(basename "${FILE}")
-		[[ "${name##*.}" != "off" ]] && source "${FILE}"
-	done
+    for FILE in /usr/local/etc/bash_completion.d/*; do
+        [[ "${FILE##*.}" != "off" ]] && source "${FILE}"
+    done
 fi
 
 # Add your specific completions below...
 if [[ -d ${HOME}/.bash_completion.d ]]; then
     for FILE in ${HOME}/.bash_completion.d/*; do
-        name=$(basename "${FILE}")
-        [[ "${name##*.}" != "off" ]] && source "${FILE}"
+        [[ "${FILE##*.}" != "off" ]] && source "${FILE}"
     done
 fi

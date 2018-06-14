@@ -1,3 +1,5 @@
+# shellcheck disable=SC2148
+
 # 3Delight Rendering Engine configuration include
 
 if [[ -d /Applications/3Delight ]]; then

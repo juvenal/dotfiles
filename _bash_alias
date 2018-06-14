@@ -1,5 +1,7 @@
 # .bash_alias
 
+# shellcheck disable=SC2148,SC1090
+
 # Enable color support of ls and also add handy aliases
 if [[ "${TERM_COLOR}" == "yes" ]]; then
 	# Try possible supported options with 'ls'
@@ -10,65 +12,10 @@ if [[ "${TERM_COLOR}" == "yes" ]]; then
 	alias fgrep='fgrep --color=auto'
 	alias egrep='egrep --color=auto'
 fi
-# SHortcut to get up one folder level
-alias ..='cd ..'
-# Some additional aliases for 'ls'
-alias l='ls -CF'
-alias ll='ls -l'
-alias la='ll -A'
-alias lr='ll -tr'
-alias lla='ls -al'
-alias df='df -h'
-alias du='du -h'
-alias dir='ls -l'
-alias vdir='ls -l'
-alias ltr='ls -ltr'
-alias ltra='ls -altr'
-# Airport check shortcut
-alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport'
-# Launch services register system
-alias lsregister='/System/Library/Frameworks/CoreServices.framework/Versions/Current/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister'
-alias rebuild='lsregister -kill -r -domain local -domain system -domain user'
-# Only define swift as an alias on early swift versions
-[[ -z "$(command -v swift)" ]] && alias swift='lldb --repl'
-# Some quick one liner to create directories inside protected areas
-alias pmkdir='sudo install -o $(id -u) -g $(id -g) -d'
-# Verify GIT projects that need a fetch
-alias git_check='for PRJ in $(ls *); do if [[ -d ${PRJ} ]]; then pushd ${PRJ} > /dev/null; if [[ ! -d .git ]]; then echo "Projeto ${PRJ} is not a git repo"; fi; popd > /dev/null; fi; done;'
 
-# Time Machine backup file controls and check
-alias tm_add='xattr -d com.apple.metadata:com_apple_backup_excludeItem'
-alias tm_remove='xattr -w com.apple.metadata:com_apple_backup_excludeItem com.apple.backupd'
-alias tm_check='tmutil isexcluded'
-
-# Utilities for VMware AppCatalyst daemon if installed
-if [[ -n "$(command -v appcatalyst-daemon)" ]]; then
-	alias catalyst_vmnet='sudo /opt/vmware/appcatalyst/libexec/services/services.sh'
-	alias catalyst_start='bash_fork appcatalyst-daemon'
-	alias catalyst_stop='gkill -TERM -F ${HOME}/.local/var/run/appcatalyst-daemon.pid'
+# Add your specific aliases below...
+if [[ -d ${HOME}/.bash_alias.d ]]; then
+    for FILE in "${HOME}"/.bash_alias.d/*; do
+        [[ "${FILE##*.}" != "off" ]] && source "${FILE}"
+    done
 fi
-
-# Some usefull docker aliases (if docker installed)
-if [[ -n "$(command -v docker)" ]]; then
-	alias swift3_linux="docker run --cap-add sys_ptrace -it --rm swift swift"
-fi
-
-# Projects related aliases require this variables
-PROJECTS_FOLDER="/Volumes/Projects"
-
-# Shortcuts for some project directories
-#alias atsource='cd ${PROJECTS_FOLDER}/Development/CLI/AdvancedToolchain'
-alias toolchain='cd ${PROJECTS_FOLDER}/Development/CLI/Toolchain'
-#alias tbbsrc='cd ${PROJECTS_FOLDER}/Development/CLI/IntelTBB'
-#alias libauxv='cd ${PROJECTS_FOLDER}/Development/CLI/libauxv'
-#alias libdfp='cd ${PROJECTS_FOLDER}/Development/CLI/libdfp'
-alias easycap='cd ${PROJECTS_FOLDER}/Development/Xcode/EasyCapViewer'
-alias scomic='cd ${PROJECTS_FOLDER}/Development/Xcode/SimpleComic'
-alias booksh='cd ${PROJECTS_FOLDER}/Development/Xcode/eBookShelf'
-#alias git2hg='cd ${PROJECTS_FOLDER}/Development/Xcode/gitifyhg'
-alias megasrc='cd ${PROJECTS_FOLDER}/Development/CLI/mega-sdk'
-alias chmox='cd ${PROJECTS_FOLDER}/Development/Xcode/Chmox'
-# Shortcuts for site directories
-alias v2labs='cd ${PROJECTS_FOLDER}/Development/Web/blogs/v2-labs.github.io'
-alias juvenal='cd ${PROJECTS_FOLDER}/Development/Web/blogs/juvenal.github.io'
-#alias thoughts='cd ${PROJECTS_FOLDER}/Development/Web/blogs/thoughts'

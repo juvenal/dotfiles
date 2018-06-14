@@ -1,14 +1,14 @@
 # Small functions
-# ===============
+#
+# shellcheck disable=SC2148,SC1090
 #
 # This config files contains some small functions to be integrated into the
 # current shell. They should be small functions used to provide housekeeping
 # of your environment.
 
-# Add your specific completions below...
+# Add your specific functions below...
 if [[ -d ${HOME}/.bash_functions.d ]]; then
-    for FILE in ${HOME}/.bash_functions.d/*; do
-        name=$(basename "${FILE}")
-        [[ "${name##*.}" != "off" ]] && source "${FILE}"
+    for FILE in "${HOME}"/.bash_functions.d/*; do
+        [[ "${FILE##*.}" != "off" ]] && source "${FILE}"
     done
 fi

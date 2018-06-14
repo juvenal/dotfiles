@@ -1,3 +1,5 @@
+# shellcheck disable=SC2148
+
 # Set some required global path constants for VAGRANT
 
 export VAGRANT_HOME="${HOME}/virtualMachines/Vagrant/Config"

@@ -1,6 +1,8 @@
 # ~/.bashrc: executed by bash(1) for interactive shells.
 # see /usr/share/doc/bash/examples/startup-files for examples.
 
+# shellcheck disable=SC2148,SC1090,SC1091
+
 # If not running interactively, don't do anything.
 [[ -z ${PS1} ]] && return
 

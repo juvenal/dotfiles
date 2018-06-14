@@ -1,3 +1,5 @@
+# shellcheck disable=SC2148
+
 # RESTful CLI tool config
 
 # Required by resty CLI operation

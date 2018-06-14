@@ -1,3 +1,5 @@
+# shellcheck disable=SC2148
+
 # Aqsis Rendering Engine configuration include
 
 if [[ -d /Applications/Aqsis.app ]]; then

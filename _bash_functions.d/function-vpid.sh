@@ -1,3 +1,5 @@
+# shellcheck disable=SC2148,SC2009
+
 # Function: vpid()
 #
 # Description:
@@ -10,5 +12,5 @@
 #   vpid <name_of_command>
 #
 function vpid() {
-	ps ax | grep -i ${1} | grep -v 'grep'
+	ps ax | grep -i "${1}" | grep -v 'grep'
 }

@@ -2,38 +2,44 @@
 #
 # Prompt configuration settings
 #
+# shellcheck disable=SC2148,SC2181,SC2086,SC2155
+# SC2086: This is disabled on purpose, because the refered strings had escape
+#         sequences that need to be out of enclosing quotes.
+# TODO: Fix the need to remove SC2155 check above
 
 # First of all, set the prompt function
-function prompt_command() {
+function __prompt_command() {
 	# Get the status of the last executed command
 	if [[ ${?} -eq 0 ]]; then
 		local PROMPT_ERR=""
 	else
-		local PROMPT_ERR=$(prompt_color "bright,red" ':( Error -> ('${?}')')'\n\n'
+		local PROMPT_ERR=$(__prompt_color "bright,red" ':( Error -> ('${?}')')'\n\n'
 	fi
 	# Prepare the prompt marker
-	local PROMPT_MARKER=$(prompt_marker '-' 20)
+	local PROMPT_MARKER=$(__prompt_marker '-' 20)
 	# Define date time to present on mark
 	local AUX_DATE=$(date "+%Y-%m-%d")
 	local AUX_TIME=$(date "+%H:%M:%S")
-	local PROMPT_DATE=$(prompt_color "normal,white" ${AUX_DATE})
-	local PROMPT_TIME=$(prompt_color "normal,white" ${AUX_TIME})
+	local PROMPT_TIME=$(__prompt_color "normal,white" "${AUX_TIME}")
+	local PROMPT_DATE=$(__prompt_color "normal,white" "${AUX_DATE}")
 	local PROMPT_DTIME="${PROMPT_DATE} ${PROMPT_TIME}"
 	# Set the individual components of the prompt
-	local PROMPT_OPEN=$(prompt_color "normal,red" '[')
-	local PROMPT_USER=$(prompt_color "normal,green" '\u')
-	local PROMPT_SEPARATOR=$(prompt_color "normal,yellow" '@')
-	local PROMPT_HOST=$(prompt_color "normal,blue" '\h')
-	local PROMPT_FOLDER=$(prompt_color "normal,cyan" '\W')
-	local PROMPT_GIT_BRANCH=$(prompt_color "normal,magenta" "$(__git_ps1 ' (%s)')")
-	local PROMPT_CLOSE=$(prompt_color "normal,red" ']$')
+	local PROMPT_OPEN=$(__prompt_color "normal,red" '[')
+	local PROMPT_USER=$(__prompt_color "normal,green" '\u')
+	local PROMPT_SEPARATOR=$(__prompt_color "normal,yellow" '@')
+	local PROMPT_HOST=$(__prompt_color "normal,blue" '\h')
+	local PROMPT_FOLDER=$(__prompt_color "normal,cyan" '\W')
+	local PROMPT_GIT_BRANCH=$(__prompt_color "normal,magenta" "$(__git_ps1 ' (%s)')")
+	[[ "${gvm_pkgset_name}" != "global" ]] && \
+		local PROMPT_GVM_WRKSPC=$(__prompt_color "dim,magenta" "$(gvm-prompt '(%s)')")
 	[[ -n "${VIRTUAL_ENV}" ]] && \
-		local PROMPT_PYTHON_ENV=$(prompt_color "dim,magenta" "[$(basename "${VIRTUAL_ENV}")]")" "
+		local PROMPT_PYTHON_ENV=$(__prompt_color "dim,magenta" "[$(basename "${VIRTUAL_ENV}")]")" "
+	local PROMPT_CLOSE=$(__prompt_color "normal,red" ']$')
 	# Finally export the compound PS1 prompt variable
-	export PS1=${PROMPT_ERR}${PROMPT_MARKER}' '${PROMPT_DTIME}'\n'${PROMPT_OPEN}${PROMPT_USER}${PROMPT_SEPARATOR}${PROMPT_HOST}' '${PROMPT_FOLDER}${PROMPT_GIT_BRANCH}' '${PROMPT_PYTHON_ENV}${PROMPT_CLOSE}' '
+	export PS1=${PROMPT_ERR}${PROMPT_MARKER}' '${PROMPT_DTIME}'\n'${PROMPT_OPEN}${PROMPT_USER}${PROMPT_SEPARATOR}${PROMPT_HOST}' '${PROMPT_FOLDER}${PROMPT_GIT_BRANCH}' '${PROMPT_GVM_WRKSPC}${PROMPT_PYTHON_ENV}${PROMPT_CLOSE}' '
 }
 # Here, set the PROMPT_COMMAND to the above function
-export PROMPT_COMMAND=prompt_command
+export PROMPT_COMMAND=__prompt_command
 
 # Prepare the command separation mark
 # prompt_marker ${1} ${2}
@@ -41,7 +47,7 @@ export PROMPT_COMMAND=prompt_command
 #    - ${2}: Spaces to left from extreme right margin
 # Output: A string composed of the given character, filling the whole line
 #         less given margin.
-function prompt_marker() {
+function __prompt_marker() {
 	# Set the fill line
 	local size=$(( COLUMNS - ${2} ))
 	local fill=""
@@ -50,7 +56,7 @@ function prompt_marker() {
 		size=$(( size - 1 ))
 	done
 	# Output the marker
-	printf "%s" "$(prompt_color "dim,white" "${fill}")"
+	printf "%s" "$(__prompt_color "dim,white" "${fill}")"
 }
 
 # Add the color requested to the string sent
@@ -59,7 +65,7 @@ function prompt_marker() {
 #    - ${2}: Text to output using that color description
 # Output: The given text ${1} surrounded by the chosen ANSI color codes in
 #         ${1}.
-function prompt_color() {
+function __prompt_color() {
 	# Extract parameters
 	local color=(${1//,/ })
 	local smode=${color[0]}

@@ -1,3 +1,5 @@
+# shellcheck disable=SC2148
+
 # Pixie Rendering Engine configuration include
 
 if [[ -d /Applications/Pixie ]]; then

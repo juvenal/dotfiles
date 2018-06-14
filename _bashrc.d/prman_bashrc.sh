@@ -1,3 +1,5 @@
+# shellcheck disable=SC2148
+
 # Pixar RenderMan Rendering Engine configuration include
 
 if [[ -d /usr/local/prman ]]; then
