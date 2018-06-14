@@ -26,7 +26,7 @@ export PATH
 
 # Load specific profile configuration scripts for 3rd party programs
 if [[ -d ~/.bash_profile.d ]]; then
-	for profile in ~/.bash_profile.d/*_profile.sh; do
+	for profile in ~/.bash_profile.d/profile_*; do
 		[[ "${profile##*.}" != "off" ]] && source "${profile}"
 	done
 fi
