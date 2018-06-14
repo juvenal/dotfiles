@@ -84,7 +84,7 @@ fi
 
 # Load specific configuration scripts for interactive 3rd party programs
 if [[ -d ~/.bashrc.d ]]; then
-    for config in ~/.bashrc.d/*_bashrc.sh; do
-        source "${config}"
+    for config in ~/.bashrc.d/bashrc_*; do
+        [[ "${config##*.}" != "off" ]] && source "${config}"
     done
 fi
