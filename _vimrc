@@ -1,8 +1,12 @@
 set ic
 set hls
 set ruler
+set tags=./tags
+set mousef
 set tabstop=8
 set autoindent si
+" set foldmethod=syntax
+" set foldenable
 syntax on
 
 " Switch number on and off with Crtl-N (twice)
