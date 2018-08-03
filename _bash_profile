@@ -21,7 +21,7 @@ DISPLAY=:0
 export DISPLAY
 
 # Set user PATH.
-PATH="$(__pathlist_sanitizer "${HOME}/bin:${PATH}")"
+PATH="${HOME}/bin:${PATH}"
 export PATH
 
 # Load specific profile configuration scripts for 3rd party programs
@@ -30,3 +30,6 @@ if [[ -d ~/.bash_profile.d ]]; then
 		[[ "${profile##*.}" != "off" ]] && source "${profile}"
 	done
 fi
+
+# Finally, sanitize the PATH variable
+PATH=$(__pathlist_sanitizer ${PATH})
