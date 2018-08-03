@@ -12,7 +12,7 @@ function __pathlist_sanitizer() {
     local dir
     while read -r -d: dir; do
         if [[ ${dir} == /* ]]; then
-            if [[ -d "${dir}" ]] && [[ ":${PATH}:" != *":${dir}:"* ]]; then
+            if [[ -d "${dir}" ]] && [[ ":${new_pathlist}:" != *":${dir}:"* ]]; then
                 new_pathlist="${new_pathlist}:${dir}"
             fi
         fi
