@@ -2,7 +2,7 @@
 #
 # Login shell settings go here
 #
-# shellcheck disable=SC2148,SC1090
+# shellcheck disable=SC1090,SC2046,SC2086,SC2148
 
 # Set login wide functions on interactive sessions or not
 if [[ -d  ~/.bash_profile_funcs.d ]]; then
@@ -20,9 +20,15 @@ fi
 DISPLAY=:0
 export DISPLAY
 
+# Set global system path
+if [[ -x /usr/libexec/path_helper ]]; then
+	eval $(/usr/libexec/path_helper -s)
+else
+	eval $(__setpaths)
+fi
+
 # Set user PATH.
 PATH="${HOME}/bin:${PATH}"
-export PATH
 
 # Load specific profile configuration scripts for 3rd party programs
 if [[ -d ~/.bash_profile.d ]]; then
@@ -32,4 +38,4 @@ if [[ -d ~/.bash_profile.d ]]; then
 fi
 
 # Finally, sanitize the PATH variable
-PATH=$(__pathlist_sanitizer ${PATH})
+PATH=$(__pathlist_sanitizer "${PATH}")
