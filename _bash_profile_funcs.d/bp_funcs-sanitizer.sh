@@ -1,7 +1,56 @@
 #
-# shellcheck disable=SC2046,SC2086,SC2148 
+# shellcheck disable=SC2046,SC2086,SC2148
 
 # Pathset utility functions
+
+
+# Path sanitizer
+#
+#
+#
+function __pathlist_sanitizer() {
+    local dir
+    local new_pathlist=""
+    while read -r -d: dir; do
+        if [[ "${dir}" == /* ]]; then
+            if [[ -d "${dir}" ]] && [[ ":${new_pathlist}:" != *":${dir}:"* ]]; then
+                new_pathlist="${new_pathlist:+"${new_pathlist}:"}${dir}"
+            fi
+        fi
+    done <<< "${1}"
+    echo "${new_pathlist}"
+}
+
+
+# Path prepend
+#
+#
+#
+function __pathlist_prepend() {
+    local path="${1}"
+    local pathlist="${2}"
+    if [[ "${path}" == /* ]] && [[ -d "${path}" ]]; then
+        echo "${path}:${pathlist/":${path}"}"
+    else
+        echo "${pathlist}"
+    fi
+}
+
+
+# Path append
+#
+#
+#
+function __pathlist_append() {
+    local path="${1}"
+    local pathlist="${2}"
+    if [[ "${path}" == /* ]] && [[ -d "${path}" ]]; then
+        echo "${pathlist/":${path}"}:${path}"
+    else
+        echo "${pathlist}"
+    fi
+}
+
 
 # Base paths' settings
 #
@@ -22,52 +71,4 @@ function __setpaths() {
     fi
     echo "PATH=$(__pathlist_sanitizer "${path}"); export PATH;"
     echo "MANPATH=$(__pathlist_sanitizer "${manpath}"); export MANPATH;"
-}
-
-
-# Path sanitizer
-#
-#
-#
-function __pathlist_sanitizer() {
-    local dir
-    local new_pathlist=""
-    while read -r -d: dir; do
-        if [[ "${dir}" == /* ]]; then
-            if [[ -d "${dir}" ]] && [[ ":${new_pathlist}:" != *":${dir}:"* ]]; then
-                new_pathlist="${new_pathlist}:${dir}"
-            fi
-        fi
-    done <<< "${1}"
-    echo "${new_pathlist#:}"
-}
-
-
-# Path prepend
-#
-#
-#
-function __pathlist_prepend() {
-    local path="${2}"
-    local pathlist="${1}"
-    if [[ "${path}" == /* ]] && [[ -d "${path}" ]]; then
-        echo "${path}:${pathlist/:${path}}"
-    else
-        echo "${pathlist}"
-    fi
-}
-
-
-# Path append
-#
-#
-#
-function __pathlist_append() {
-    local path="${2}"
-    local pathlist="${1}"
-    if [[ "${path}" == /* ]] && [[ -d "${path}" ]]; then
-        echo "${pathlist/:${path}}:${path}"
-    else
-        echo "${pathlist}"
-    fi
 }
