@@ -14,13 +14,15 @@
 #   my_c_indent 4 132 <file.c>
 #
 function my_c_indent() {
-	# Find the proper indent cmd to run
-	if [[ -n "$(command -v gindent)" ]]; then
-		local INDENT=gindent
-	else
-		local INDENT=indent
-	fi
+    local indent=${1:=4}
+    local width=${2:=80}
+    # Find the proper indent cmd to run
+    if [[ -n "$(command -v gindent)" ]]; then
+        local INDENT=gindent
+    else
+        local INDENT=indent
+    fi
 
-	# Run the indent command with the following paramenters
-	${INDENT} -bad -bap -br -nce -cdw  -npcs -npsl -ncs -nbs -saf -sai -saw -nbc -brf -brs -nut -ts${1} -i${1} -l${2} ${3};
+    # Run the indent command with the following paramenters
+    ${INDENT} -bad -bap -br -nce -cdw  -npcs -npsl -ncs -nbs -saf -sai -saw -nbc -brf -brs -nut -ts${indent} -i${indent} -l${width} ${3};
 }
