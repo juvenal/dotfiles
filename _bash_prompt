@@ -102,23 +102,23 @@ function __prompt_color() {
 			[[ "${smode}" == "reverse" ]]    && local mode=7
 			[[ "${smode}" == "nondisplay" ]] && local mode=8
 			# Set requested foreground color code
-			[[ "${sfore}" == "black" ]]   && local fore=30
-			[[ "${sfore}" == "red" ]]     && local fore=31
-			[[ "${sfore}" == "green" ]]   && local fore=32
-			[[ "${sfore}" == "yellow" ]]  && local fore=33
-			[[ "${sfore}" == "blue" ]]    && local fore=34
-			[[ "${sfore}" == "magenta" ]] && local fore=35
-			[[ "${sfore}" == "cyan" ]]    && local fore=36
-			[[ "${sfore}" == "white" ]]   && local fore=37
+			[[ "${sfore}" == "black" ]]      && local fore=30
+			[[ "${sfore}" == "red" ]]        && local fore=31
+			[[ "${sfore}" == "green" ]]      && local fore=32
+			[[ "${sfore}" == "yellow" ]]     && local fore=33
+			[[ "${sfore}" == "blue" ]]       && local fore=34
+			[[ "${sfore}" == "magenta" ]]    && local fore=35
+			[[ "${sfore}" == "cyan" ]]       && local fore=36
+			[[ "${sfore}" == "white" ]]      && local fore=37
 			# Set requested background color code
-			[[ "${sback}" == "black" ]]   && local back=40
-			[[ "${sback}" == "red" ]]     && local back=41
-			[[ "${sback}" == "green" ]]   && local back=42
-			[[ "${sback}" == "yellow" ]]  && local back=43
-			[[ "${sback}" == "blue" ]]    && local back=44
-			[[ "${sback}" == "magenta" ]] && local back=45
-			[[ "${sback}" == "cyan" ]]    && local back=46
-			[[ "${sback}" == "white" ]]   && local back=47
+			[[ "${sback}" == "black" ]]      && local back=40
+			[[ "${sback}" == "red" ]]        && local back=41
+			[[ "${sback}" == "green" ]]      && local back=42
+			[[ "${sback}" == "yellow" ]]     && local back=43
+			[[ "${sback}" == "blue" ]]       && local back=44
+			[[ "${sback}" == "magenta" ]]    && local back=45
+			[[ "${sback}" == "cyan" ]]       && local back=46
+			[[ "${sback}" == "white" ]]      && local back=47
 			# Embed the given string into the requested color
 			if [[ -n ${mode} ]] && [[ -z ${fore} ]] && [[ -z ${back} ]]; then
 				local setcolor=$(printf '\[\033[%sm\]' ${mode})
