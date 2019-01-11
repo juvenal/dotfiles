@@ -3,6 +3,6 @@
 # Start VMware AppCatalyst daemon if properly installed
 
 # If VMware AppCatalyst is properly installed, fork start its daemon...
-if [[ -n "$(command -v appcatalyst-daemon)" ]]; then
+if command -v appcatalyst-daemon > /dev/null; then
 	bash_fork "appcatalyst-daemon"
 fi
