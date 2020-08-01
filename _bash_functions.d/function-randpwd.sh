@@ -19,13 +19,13 @@ function randpwd() {
 		-A) local passwdChars='qwertQWERTasdfgASDFGzxcvbZXCVB';;
 		-B) local passwdChars='12345qwertQWERTasdfgASDFGzxcvbZXCVB';;
 		-C) local passwdChars='12345!@#$%qwertQWERTasdfgASDFGzxcvbZXCVB';;
-		-[456789]) local passwdSize=${1#-};;
+		-[0-9]*) local passwdSize=${1#-};;
 	esac
 	case ${2} in
 		-A) local passwdChars='qwertQWERTasdfgASDFGzxcvbZXCVB';;
 		-B) local passwdChars='12345qwertQWERTasdfgASDFGzxcvbZXCVB';;
 		-C) local passwdChars='12345!@#$%qwertQWERTasdfgASDFGzxcvbZXCVB';;
-		-[456789]) local passwdSize=${2#-};;
+		-[0-9]*) local passwdSize=${2#-};;
     esac
     # Sanitize required values
     [[ -n ${passwdChars} ]] || \
