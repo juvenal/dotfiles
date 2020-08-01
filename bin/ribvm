@@ -88,7 +88,7 @@ shift
 
 [[ -z "${command}" ]] && { show_help_usage; exit 1; }
 
-[[ ! -O /usr/local/prman ]] && show_help_cmd_install
+[[ ! -O /usr/local/prman && "${command}" != "install" ]] && show_help_cmd_install
 
 case "${command}" in
 	list)
@@ -101,10 +101,10 @@ case "${command}" in
 		use_version ${vernum}
 		;;
 	install)
-		sudo sh -c '
+		sudo bash -c "
 		[[ ! -d /usr/local/prman ]] && mkdir /usr/local/prman
-		[[ ! -O /usr/local/prman ]] && chown -R $(id -u) /usr/local/prman
-		'
+		chown -R $(id -u) /usr/local/prman
+		"
 		;;
 	help|-h)
 		show_help_usage
