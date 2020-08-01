@@ -2,6 +2,15 @@
 
 # shellcheck disable=SC2148
 
+# Function to fix an issue with b2-tools on macOS brew (homebrew)
+# copied from https://github.com/scop/bash-completion/bash_completion
+# to work around https://github.com/Backblaze/B2_Command_Line_Tool/issues/500
+_have() {
+    # Completions for system administrator commands are installed as well in
+    # case completion is attempted via `sudo command ...'.
+    PATH=$PATH:/usr/sbin:/sbin:/usr/local/sbin type $1 &>/dev/null
+}
+
 
 # Add brew completions if available on directory "/usr/local"
 # This avoids possible broken completion scripts marked with an
