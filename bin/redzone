@@ -1,0 +1,15 @@
+#!/bin/bash
+
+USER="juvenals@br.ibm.com"
+PASS="m/aZ@gCNHsCnDr9Rp3rf"
+SERVER="ssra-blue-mtl1.mtlvig.can.ibm.com"
+#SERVER="ssra-blue-tor1.con.can.ibm.com"
+#SERVER="ssra-blue-cal1.calshw.can.ibm.com"
+
+if [[ ! -f $HOME/.redzone.pid ]]; then
+  (sudo openconnect $SERVER -u $USER --authgroup=NetCC --servercert pin-sha256:Z7ea5nXKKyJsTnNaJQM9zGZMC4xwRawq8I5ecH5MbWc= --passwd-on-stdin <<< $PASS >> $HOME/.redzone.log 2>&1 &
+   echo ${!} > $HOME/.redzone.pid)
+else
+  echo "Red Zone already active"
+fi
+
