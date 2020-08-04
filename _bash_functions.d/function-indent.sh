@@ -1,4 +1,4 @@
-# shellcheck disable=SC2148
+# shellcheck disable=SC2148,SC2068
 
 # Function: my_c_indent()
 #
@@ -14,8 +14,8 @@
 #   my_c_indent 4 132 <file.c>
 #
 function my_c_indent() {
-    local indent=${1:=4}
-    local width=${2:=80}
+    local indent=${1:-4}; shift
+    local width=${1:-80}; shift
     # Find the proper indent cmd to run
     if [[ -n "$(command -v gindent)" ]]; then
         local INDENT=gindent
@@ -24,5 +24,5 @@ function my_c_indent() {
     fi
 
     # Run the indent command with the following paramenters
-    ${INDENT} -bad -bap -br -nce -cdw  -npcs -npsl -ncs -nbs -saf -sai -saw -nbc -brf -brs -nut -ts${indent} -i${indent} -l${width} ${3};
+    ${INDENT} -bad -bap -br -nce -cdw  -npcs -npsl -ncs -nbs -saf -sai -saw -nbc -brf -brs -nut -ts${indent} -i${indent} -l${width} ${@}
 }
